@@ -8,11 +8,13 @@ class App extends Component {
     this.state = {
       name: 'Chuck',
     };
+
+    this.changeName = this.changeName.bind(this);
   }
 
-  changeName(name) {
+  changeName(e) {
     this.setState({
-      name,
+      name: e.target.value,
     });
   }
 
@@ -28,8 +30,7 @@ class App extends Component {
           <h1 className="App-title">Welcome to React, {name}</h1>
         </header>
         <p className="App-intro">
-          To get started, edit <code>src/App.js </code> and save to reload.
-          <input type="test" onChange={e => this.changeName(e.target.value)} value={name} />
+          <input type="test" onChange={this.changeName} value={name} />
         </p>
       </div>
     );
