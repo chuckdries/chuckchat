@@ -2,10 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "description": "Server for chuckchat",
-  "main": "src/index.js",
+  "main": "src/index.ts",
   "scripts": {
-    "build": "babel src -d dist",
-    "start": "babel-watch -w src --inspect src/index.js"
+    "build": "tslint -c tslint.json 'src/**/*.ts' && tsc",
+    "start": "concurrently --kill-others \"tsc -w\" \"nodemon dist/index.js\""
   },
   "author": "",
   "license": "ISC",
@@ -16,11 +16,13 @@
     "sqlite3": "^4.0.2"
   },
   "devDependencies": {
+    "@types/express": "^4.16.0",
+    "@types/socket.io": "^1.4.38",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-watch": "^2.0.7",
-    "eslint": "^5.5.0",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.14.0"
+    "concurrently": "^4.0.1",
+    "nodemon": "^1.18.4",
+    "typescript": "^3.0.3"
   }
 }

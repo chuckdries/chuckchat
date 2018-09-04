@@ -1,10 +1,10 @@
 import express from 'express';
-import http from 'http';
+import { createServer } from 'http';
 import socketio from 'socket.io';
 // import cors from 'cors';
 
 const app = express();
-const httpServer = http.Server(app);
+const httpServer = createServer(app);
 const io = socketio(httpServer);
 
 // const corsOptions = {
@@ -15,13 +15,13 @@ const io = socketio(httpServer);
 // app.use(cors(corsOptions));
 
 io.on('connection', (socket) => {
-  console.log('a user connected'); // eslint-disable-line no-console
+  console.log('a user connected'); // tslint:disable-line:no-console
   socket.on('message', (message, fn) => {
     io.sockets.emit('message', message);
     fn();
   });
   socket.on('disconnect', () => {
-    console.log('user disconnected'); // eslint-disable-line no-console
+    console.log('user disconnected'); // tslint:disable-line:no-console
   });
 });
 
@@ -29,4 +29,4 @@ app.get('/', (req, res) => {
   res.send('howdy!');
 });
 
-httpServer.listen(8080, () => console.log('Listening on 8080')); // eslint-disable-line no-console
+httpServer.listen(8080, () => console.log('Listening on 8080')); // tslint:disable-line:no-console
