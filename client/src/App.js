@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { insert } from 'ramda';
 import io from 'socket.io-client';
+import urljoin from 'url-join';
 // import logo from './logo.svg';
 import config from './config';
 
@@ -13,6 +14,7 @@ class App extends Component {
     super(props);
     this.state = {
       // messages: {},
+      loadingMessages: true,
       messages: [],
     };
 
@@ -20,6 +22,11 @@ class App extends Component {
   }
 
   componentDidMount() {
+    fetch(urljoin(config.apiURL, '/messages'))
+      .then(messages => this.setState({
+        messages,
+        loadingMessages: false,
+      }))
     socket.on('message', this.receiveMsg);
   }
 
@@ -33,7 +40,7 @@ class App extends Component {
   }
 
   render() {
-    const { messages } = this.state;
+    const { messages, loadingMessages } = this.state;
     return (
       <div className="App fs-1">
         <ul>
@@ -45,7 +52,7 @@ class App extends Component {
             </li>))
           }
         </ul>
-        <MessageForm socket={socket} />
+        {!loadingMessages && <MessageForm socket={socket} />}
       </div>
     );
   }
