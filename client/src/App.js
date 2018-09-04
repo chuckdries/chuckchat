@@ -12,6 +12,12 @@ class App extends Component {
     this.changeName = this.changeName.bind(this);
   }
 
+  componentDidMount() {
+    fetch('https://jsonplaceholder.typicode.com/todos/1')
+      .then(response => response.json())
+      .then(json => console.log(json)); // eslint-disable-line no-console
+  }
+
   changeName(e) {
     this.setState({
       name: e.target.value,
