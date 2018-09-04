@@ -3,9 +3,8 @@ import { insert } from 'ramda';
 import io from 'socket.io-client';
 // import logo from './logo.svg';
 import config from './config';
-import './App.css';
 
-import MessageForm from './MessageForm';
+import MessageForm from './components/MessageForm';
 
 const socket = io.connect(config.apiURL);
 
@@ -22,9 +21,6 @@ class App extends Component {
 
   componentDidMount() {
     socket.on('message', this.receiveMsg);
-    fetch('https://jsonplaceholder.typicode.com/todos/1')
-      .then(response => response.json())
-      .then(json => console.log(json)); // eslint-disable-line no-console
   }
 
   receiveMsg(message) {
@@ -39,7 +35,7 @@ class App extends Component {
   render() {
     const { messages } = this.state;
     return (
-      <div className="App">
+      <div className="App fs-1">
         <ul>
           {messages.map(message => (
             <li

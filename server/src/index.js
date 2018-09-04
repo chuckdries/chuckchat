@@ -16,7 +16,10 @@ const io = socketio(httpServer);
 
 io.on('connection', (socket) => {
   console.log('a user connected'); // eslint-disable-line no-console
-  socket.on('message', message => io.sockets.emit('message', message));
+  socket.on('message', (message, fn) => {
+    io.sockets.emit('message', message);
+    fn();
+  });
   socket.on('disconnect', () => {
     console.log('user disconnected'); // eslint-disable-line no-console
   });

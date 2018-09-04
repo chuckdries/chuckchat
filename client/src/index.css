@@ -2,4 +2,27 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  background: #eee;
+}
+.App {
+  max-width: 800px;
+  margin: auto;
+}
+.fs-2 {
+  font-size: 16px;
+}
+.fs-1 {
+  font-size: 14px;
+}
+.fs-0 {
+  font-size: 12px;
+}
+
+input[type="text"] {
+  padding: .5rem;
+  /* outline: 0; */
+  border-style: solid;
+}
+.invalid {
+  border-bottom: 1px solid red;
 }
