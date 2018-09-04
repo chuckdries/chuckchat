@@ -1,43 +1,55 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { insert } from 'ramda';
+import io from 'socket.io-client';
+// import logo from './logo.svg';
+import config from './config';
 import './App.css';
+
+import MessageForm from './MessageForm';
+
+const socket = io.connect(config.apiURL);
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: 'Chuck',
+      // messages: {},
+      messages: [],
     };
 
-    this.changeName = this.changeName.bind(this);
+    this.receiveMsg = this.receiveMsg.bind(this);
   }
 
   componentDidMount() {
+    socket.on('message', this.receiveMsg);
     fetch('https://jsonplaceholder.typicode.com/todos/1')
       .then(response => response.json())
       .then(json => console.log(json)); // eslint-disable-line no-console
   }
 
-  changeName(e) {
+  receiveMsg(message) {
+    console.log('received message', message);
+    const { messages } = this.state;
+    const newMessages = insert(messages.length, message, messages);
     this.setState({
-      name: e.target.value,
+      messages: newMessages,
     });
   }
 
   render() {
-    const {
-      name,
-    } = this.state;
-
+    const { messages } = this.state;
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React, {name}</h1>
-        </header>
-        <p className="App-intro">
-          <input type="test" onChange={this.changeName} value={name} />
-        </p>
+        <ul>
+          {messages.map(message => (
+            <li
+              key={message.user + message.message}
+            >
+              {message.user}: {message.message}
+            </li>))
+          }
+        </ul>
+        <MessageForm socket={socket} />
       </div>
     );
   }
