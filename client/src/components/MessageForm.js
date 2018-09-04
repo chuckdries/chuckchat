@@ -16,13 +16,13 @@ const MessageForm = ({
   <form className="flex items-end pb1" onSubmit={handleSubmit}>
     <div className="flex" style={{ width: '250px' }}>
       <div className="flex flex-auto flex-column">
-        {touched.user && errors.user && <span className="self-start fs-0">{errors.user}</span>}
+        {/*touched.user && errors.user && <span className="self-start fs-0">{errors.user}</span>*/}
         <input className={classnames({ invalid: touched.user && errors.user })} type="text" name="user" onChange={handleChange} onBlur={handleBlur} value={values.user} placeholder="User" />
       </div>
     </div>
     <div className="flex flex-auto">
       <div className="flex flex-auto flex-column">
-        {touched.message && errors.message && <span className="self-start fs-0">{errors.message}</span>}
+        {/*touched.message && errors.message && <span className="self-start fs-0">{errors.message}</span>*/}
         <input className={classnames({ invalid: touched.message && errors.message })} type="text" name="message" onChange={handleChange} onBlur={handleBlur} value={values.message} placeholder="Message" />
       </div>
     </div>
