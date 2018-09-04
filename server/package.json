@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "build": "tslint -c tslint.json 'src/**/*.ts' && tsc",
-    "start": "concurrently --kill-others \"tsc -w\" \"nodemon dist/index.js\""
+    "start": "concurrently --kill-others \"tsc -w\" \"nodemon --inspect dist/index.js\""
   },
   "author": "",
   "license": "ISC",
