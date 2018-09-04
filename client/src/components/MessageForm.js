@@ -35,6 +35,25 @@ const MessageForm = ({
 );
 
 export default withFormik({
+  handleSubmit: (
+    {
+      message,
+      user,
+    },
+    {
+      props,
+      resetForm,
+      setSubmitting,
+    },
+  ) => {
+    props.socket.emit('message', {
+      message,
+      user,
+    }, () => {
+      resetForm({ user, message: '' });
+      setSubmitting(false);
+    });
+  },
   mapPropsToValues: () => ({ message: '', user: '' }),
   validate: ({ message, user }) => {
     const errors = {};
@@ -46,43 +65,24 @@ export default withFormik({
     }
     return errors;
   },
-  handleSubmit: (
-    {
-      user,
-      message,
-    },
-    {
-      props,
-      resetForm,
-      setSubmitting,
-    },
-  ) => {
-    props.socket.emit('message', {
-      user,
-      message,
-    }, () => {
-      resetForm({ user, message: '' });
-      setSubmitting(false);
-    });
-  },
 })(MessageForm);
 
 MessageForm.propTypes = {
   dirty: PropTypes.bool,
   errors: PropTypes.shape({
-    user: PropTypes.string,
     message: PropTypes.string,
+    user: PropTypes.string,
   }),
   handleBlur: PropTypes.func,
   handleChange: PropTypes.func,
   handleSubmit: PropTypes.func,
   isSubmitting: PropTypes.bool,
   touched: PropTypes.shape({
-    user: PropTypes.bool,
     message: PropTypes.bool,
+    user: PropTypes.bool,
   }),
   values: PropTypes.shape({
-    user: PropTypes.string,
     message: PropTypes.string,
+    user: PropTypes.string,
   }).isRequired,
 };

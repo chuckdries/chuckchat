@@ -9,11 +9,25 @@ import MessageForm from './components/MessageForm';
 
 const socket = io.connect(config.apiURL);
 
-class App extends Component {
-  constructor(props: any) {
+interface Message {
+  user: string;
+  message: string;
+}
+// export interface Props {
+
+// }
+interface State {
+  loadingMessages: boolean;
+  messages: Message[];
+}
+
+
+class App extends Component<object, State> {
+  constructor(props: object) {
     super(props);
     this.state = {
-      loadingMessages: true,
+      // loadingMessages: true,
+      loadingMessages: false,
       messages: [],
     };
 
@@ -22,7 +36,8 @@ class App extends Component {
 
   public componentDidMount() {
     fetch(urljoin(config.apiURL, '/messages'))
-      .then(messages => this.setState({
+      .then(response => response.json())
+      .then((messages: Message[]) => this.setState({
         loadingMessages: false,
         messages,
       }))
