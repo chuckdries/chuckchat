@@ -1,7 +1,26 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withFormik } from 'formik';
 import classnames from 'classnames';
+import { FormikBag, withFormik } from 'formik';
+import React from 'react';
+
+interface FormAssoc {
+  message?: string | boolean;
+  user?: string | boolean;
+}
+
+interface InnerProps {
+  dirty: boolean;
+  errors: FormAssoc;
+  handleBlur: any;
+  handleChange: any;
+  handleSubmit: any;
+  touched: FormAssoc;
+  values: FormAssoc;
+  isSubmitting: boolean;
+}
+
+export interface Props {
+  socket: any;
+}
 
 const MessageForm = ({
   dirty,
@@ -12,7 +31,7 @@ const MessageForm = ({
   handleBlur,
   handleSubmit,
   isSubmitting,
-}) => (
+}: InnerProps) => (
   <form className="flex items-end pb1" onSubmit={handleSubmit}>
     <div className="flex" style={{ width: '250px' }}>
       <div className="flex flex-auto flex-column">
@@ -26,8 +45,8 @@ const MessageForm = ({
         <input className={classnames({ invalid: touched.message && errors.message })} type="text" name="message" onChange={handleChange} onBlur={handleBlur} value={values.message} placeholder="Message" />
       </div>
     </div>
-    <div className="">
-      <button className="p1" type="submit" disabled={isSubmitting || Object.values(errors).length || !dirty}>
+    <div>
+      <button className="p1" type="submit" disabled={Boolean(isSubmitting || Object.keys(errors).length || !dirty)}>
         send
       </button>
     </div>
@@ -39,14 +58,15 @@ export default withFormik({
     {
       message,
       user,
-    },
+    }: FormAssoc,
     {
       props,
       resetForm,
       setSubmitting,
-    },
+    }: FormikBag<Props, FormAssoc>,
   ) => {
-    props.socket.emit('message', {
+    const { socket } = props;
+    socket.emit('message', {
       message,
       user,
     }, () => {
@@ -56,7 +76,7 @@ export default withFormik({
   },
   mapPropsToValues: () => ({ message: '', user: '' }),
   validate: ({ message, user }) => {
-    const errors = {};
+    const errors: FormAssoc = {};
     if (!message) {
       errors.message = 'This Field is Required';
     }
@@ -66,23 +86,3 @@ export default withFormik({
     return errors;
   },
 })(MessageForm);
-
-MessageForm.propTypes = {
-  dirty: PropTypes.bool,
-  errors: PropTypes.shape({
-    message: PropTypes.string,
-    user: PropTypes.string,
-  }),
-  handleBlur: PropTypes.func,
-  handleChange: PropTypes.func,
-  handleSubmit: PropTypes.func,
-  isSubmitting: PropTypes.bool,
-  touched: PropTypes.shape({
-    message: PropTypes.bool,
-    user: PropTypes.bool,
-  }),
-  values: PropTypes.shape({
-    message: PropTypes.string,
-    user: PropTypes.string,
-  }).isRequired,
-};
