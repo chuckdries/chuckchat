@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
 import { insert } from 'ramda';
+import React, { Component } from 'react';
 import io from 'socket.io-client';
 import urljoin from 'url-join';
 // import logo from './logo.svg';
@@ -10,10 +10,9 @@ import MessageForm from './components/MessageForm';
 const socket = io.connect(config.apiURL);
 
 class App extends Component {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {
-      // messages: {},
       loadingMessages: true,
       messages: [],
     };
@@ -21,17 +20,17 @@ class App extends Component {
     this.receiveMsg = this.receiveMsg.bind(this);
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     fetch(urljoin(config.apiURL, '/messages'))
       .then(messages => this.setState({
-        messages,
         loadingMessages: false,
+        messages,
       }))
     socket.on('message', this.receiveMsg);
   }
 
-  receiveMsg(message) {
-    console.log('received message', message);
+  public receiveMsg(message: any) {
+    console.log('received message', message); // tslint:disable-line:no-console
     const { messages } = this.state;
     const newMessages = insert(messages.length, message, messages);
     this.setState({
@@ -39,7 +38,7 @@ class App extends Component {
     });
   }
 
-  render() {
+  public render() {
     const { messages, loadingMessages } = this.state;
     return (
       <div className="App fs-1">
