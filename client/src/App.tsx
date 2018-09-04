@@ -56,11 +56,13 @@ class App extends Component<object, State> {
   public render() {
     const { messages, loadingMessages } = this.state;
     return (
-      <div className="App fs-1">
-        <ul>
+      <div className="App fs-1 flex flex-column">
+        <h1>ChuckChat.</h1>
+        <ul className="flex-auto p0">
           {messages.map(message => (
             <li
               key={message.user + message.message}
+              style={{ listStyle: "none"}}
             >
               {message.user}: {message.message}
             </li>))

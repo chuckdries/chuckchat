@@ -13,20 +13,20 @@ const MessageForm = ({
   handleSubmit,
   isSubmitting,
 }) => (
-  <form className="flex" onSubmit={handleSubmit}>
-    <div className="flex p1" style={{ width: '300px' }}>
+  <form className="flex items-end pb1" onSubmit={handleSubmit}>
+    <div className="flex" style={{ width: '250px' }}>
       <div className="flex flex-auto flex-column">
-        <input className={classnames({ invalid: touched.user && errors.user })} type="text" name="user" onChange={handleChange} onBlur={handleBlur} value={values.user} placeholder="User" />
         {touched.user && errors.user && <span className="self-start fs-0">{errors.user}</span>}
+        <input className={classnames({ invalid: touched.user && errors.user })} type="text" name="user" onChange={handleChange} onBlur={handleBlur} value={values.user} placeholder="User" />
       </div>
     </div>
-    <div className="flex flex-auto p1">
+    <div className="flex flex-auto">
       <div className="flex flex-auto flex-column">
-        <input className={classnames({ invalid: touched.message && errors.message })} type="text" name="message" onChange={handleChange} onBlur={handleBlur} value={values.message} placeholder="Message" />
         {touched.message && errors.message && <span className="self-start fs-0">{errors.message}</span>}
+        <input className={classnames({ invalid: touched.message && errors.message })} type="text" name="message" onChange={handleChange} onBlur={handleBlur} value={values.message} placeholder="Message" />
       </div>
     </div>
-    <div className="p1">
+    <div className="">
       <button className="p1" type="submit" disabled={isSubmitting || Object.values(errors).length || !dirty}>
         send
       </button>
