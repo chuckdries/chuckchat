@@ -33,7 +33,7 @@ const MessageForm = ({
   isSubmitting,
 }: InnerProps) => (
   <form className="flex items-end pb1" onSubmit={handleSubmit}>
-    <div className="flex" style={{ width: '250px' }}>
+    <div className="flex" style={{ width: '200px' }}>
       <div className="flex flex-auto flex-column">
         {/*touched.user && errors.user && <span className="self-start fs-0">{errors.user}</span>*/}
         <input className={classnames({ invalid: touched.user && errors.user })} type="text" name="user" onChange={handleChange} onBlur={handleBlur} value={values.user as string} placeholder="User" />
