@@ -21,6 +21,8 @@ interface State {
 
 
 class App extends Component<object, State> {
+  private messageContainer: HTMLElement;
+
   constructor(props: object) {
     super(props);
     this.state = {
@@ -49,14 +51,15 @@ class App extends Component<object, State> {
     this.setState({
       messages: newMessages,
     });
+    setImmediate(() => this.messageContainer.scrollTop = this.messageContainer.scrollHeight);
   }
 
   public render() {
     const { messages, loadingMessages } = this.state;
     return (
       <div className="App fs-1 flex flex-column">
-        <h1>Chat.</h1>
-        <ul className="flex-auto p0">
+        <h1 className="my1">Chat.</h1>
+        <ul ref={ref => this.messageContainer = ref as HTMLElement} className="flex-auto px0 py1 mt0 mx0 mb1 overflow-scroll">
           {messages.map(message => (
             <li
               key={message.user + message.message}
