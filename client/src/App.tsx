@@ -13,9 +13,7 @@ interface Message {
   user: string;
   message: string;
 }
-// export interface Props {
 
-// }
 interface State {
   loadingMessages: boolean;
   messages: Message[];
@@ -57,7 +55,7 @@ class App extends Component<object, State> {
     const { messages, loadingMessages } = this.state;
     return (
       <div className="App fs-1 flex flex-column">
-        <h1>ChuckChat.</h1>
+        <h1>Chat.</h1>
         <ul className="flex-auto p0">
           {messages.map(message => (
             <li
