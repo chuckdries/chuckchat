@@ -12,6 +12,7 @@ const socket = io.connect(config.apiURL);
 interface Message {
   user: string;
   message: string;
+  id: number;
 }
 
 interface State {
@@ -37,10 +38,14 @@ class App extends Component<object, State> {
   public componentDidMount() {
     fetch(urljoin(config.apiURL, '/messages'))
       .then(response => response.json())
-      .then((messages: Message[]) => this.setState({
-        loadingMessages: false,
-        messages,
-      }))
+      .then((messages: Message[]) => {
+        this.setState({
+          loadingMessages: false,
+          messages,
+        })
+        console.log(messages) // tslint:disable-line:no-console
+      })
+
     socket.on('message', this.receiveMsg);
   }
 
@@ -62,8 +67,8 @@ class App extends Component<object, State> {
         <ul ref={ref => this.messageContainer = ref as HTMLElement} className="flex-auto px0 py1 mt0 mx0 mb1 overflow-scroll">
           {messages.map(message => (
             <li
-              key={message.user + message.message}
-              style={{ listStyle: "none"}}
+              key={message.id}
+              style={{ listStyle: "none" }}
             >
               {message.user}: {message.message}
             </li>))
